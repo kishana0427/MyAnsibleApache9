@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - name: i want to install ec2 on ubuntu
+    ec2:
+      key_name: MyKeyPairForDevops
+      instance_type: t2.micro
+      image: ami-0de396ac8219e6fbc
+      wait: yes
+      group: launch-wizard-8
+      region: ap-south-1
+      count: 1
+      vpc_subnet_id: subnet-8ea68ec2
+      assign_public_ip: yes
+      instance_tags:
+        Name: ansible-dy-ubun
+

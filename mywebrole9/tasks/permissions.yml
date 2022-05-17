@@ -1,0 +1,47 @@
+---
+- name: tomcat group permisions
+  file:
+    path: /usr/local/tomcat
+    state: directory
+    group: tomcat
+    recurse: yes
+- name: tomcat group read permission
+  file:
+    path: /usr/local/tomcat/conf
+    state: directory
+    mode: g+r
+    recurse: yes
+- name: tomcat group execute permission
+  file:
+    path: /usr/local/tomcat/conf
+    state: directory
+    mode: g+x
+- name: tomcat ownership permission of work
+  file:
+    path: /usr/local/tomcat/work/
+    state: directory
+    owner: tomcat
+    recurse: yes
+- name: tomcat ownership permission of logs
+  file:
+    path: /usr/local/tomcat/logs/
+    state: directory
+    owner: tomcat
+    recurse: yes
+- name: tomcat ownership permission of temp
+  file:
+    path: /usr/local/tomcat/temp/
+    state: directory
+    owner: tomcat
+    recurse: yes
+- name: tomcat ownership permission of webapps
+  file:
+    path: /usr/local/tomcat/webapps/
+    state: directory
+    owner: tomcat
+    recurse: yes
+
+
+
+
+  

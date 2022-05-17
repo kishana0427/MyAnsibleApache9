@@ -1,0 +1,12 @@
+---
+# tasks file for mywebrole9
+- include_tasks: installjava.yml
+- include_tasks: createtomcatuser.yml
+- include_tasks: downloadtomcat.yml
+- include_tasks: permissions.yml
+- include_tasks: copyservice.yml
+- include_tasks: starttomcat.yml
+- include_tasks: configwebmgmt.yml
+- include_tasks: downloadjenkin.yml
+- include_tasks: starttomcat.yml
+

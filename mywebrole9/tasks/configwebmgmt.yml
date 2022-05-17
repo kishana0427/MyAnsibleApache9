@@ -1,0 +1,15 @@
+---
+- name: i want to config tomcat users
+  template:
+    src: templates/tomcatusers.xml
+    dest: /usr/local/tomcat/conf/tomcat-users.xml
+- name: i want to config manager context
+  template:
+    src: templates/managercontext.xml
+    dest: /usr/local/tomcat/webapps/manager/META-INF/context.xml
+- name: i want to config host manager context
+  template:
+    src: templates/hostmanagercontext.xml
+    dest: /usr/local/tomcat/webapps/host-manager/META-INF/context.xml
+
+

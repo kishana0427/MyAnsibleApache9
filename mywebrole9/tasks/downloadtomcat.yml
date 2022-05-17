@@ -1,0 +1,15 @@
+---
+- name: i want to chage dir
+  command: ls
+  args:
+    chdir: /usr/local/tomcat
+- name: i want to download tomcat
+  get_url:
+    url: https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.30/bin/apache-tomcat-9.0.30.tar.gz
+    dest: /home/kishan
+- name: i want to extract tar
+  command:
+    cmd: sudo tar -xvzf /home/kishan/apache-tomcat-9.0.30.tar.gz -C /usr/local/tomcat --strip-components=1
+    creates: /usr/local/tomcat/LICENSE
+    warn: false
+
