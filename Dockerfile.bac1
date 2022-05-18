@@ -1,0 +1,5 @@
+FROM ubuntu
+MAINTAINER kishana0427@gmail.com
+RUN apt-get update
+RUN apt-get install apache2 -y
+CMD ["ping","google.com"]
