@@ -1,0 +1,72 @@
+K8S Cluster:
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/in
+stall-kubeadm/
+https://kubernetes.io/docs/setup/production-environment/container-runtime
+s/#docker
+https://docs.docker.com/engine/install/ubuntu/
+ON ALL SERVERS:
+● Create 3 ubuntu 16 server with t2.medium
+● Install docker
+● sudo apt-get remove docker docker-engine docker.io containerd runc
+● sudo apt-get update
+● sudo apt-get install \
+ca-certificates \
+curl \
+gnupg \
+Lsb-release
+● curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg
+--dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+● echo \
+● "deb [arch= $( dpkg --print-architecture)
+signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]
+https://download.docker.com/linux/ubuntu \
+$( lsb_release -cs) stable" | sudo tee
+/etc/apt/sources.list.d/docker.list > /dev/null
+● sudo apt-get update
+● sudo apt-get install docker-ce docker-ce-cli containerd.io
+● sudo mkdir /etc/docker
+● cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+"exec-opts": ["native.cgroupdriver=systemd"],
+"log-driver": "json-file",
+"log-opts": {
+"max-size": "100m"
+},
+"storage-driver": "overlay2"
+}
+EOF
+● sudo systemctl enable docker
+● sudo systemctl daemon-reload
+● sudo systemctl restart docker
+● Installing kubeadm, kubelet and kubectl
+● sudo apt-get update
+● sudo apt-get install -y apt-transport-https ca-certificates curl
+● sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg
+https://packages.cloud.google.com/apt/doc/apt-key.gpg
+● echo "deb
+[signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg]
+https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee
+/etc/apt/sources.list.d/kubernetes.list
+● sudo apt-get update
+● sudo apt-get install -y kubelet kubeadm kubectl
+● sudo apt-mark hold kubelet kubeadm kubectl
+ON Master
+● Kubeadm init
+Your Kubernetes control-plane has initialized successfully!
+ON MASTER :
+--------------------------
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+kubectl get nodes
+kubectl get pods
+On master as root:
+# kubectl apply -f
+"https://cloud.weave.works/k8s/net?k8s-version=$(
+kubectl version | base64 | tr -d '\n')"
+ON NODES:
+----------------------
+kubeadm join 172.31.31.201:6443 --token yhw2d8.3bs6uy3sdk7io3a6 \
+--discovery-token-ca-cert-hash
+sha256:dce968b1437bd4f2dc122cfc2416003186a0bf744ac17767f4e2f053fe4
+34586
