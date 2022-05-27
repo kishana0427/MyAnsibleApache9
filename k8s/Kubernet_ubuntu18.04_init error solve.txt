@@ -1,0 +1,41 @@
+cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+"exec-opts": ["native.cgroupdriver=systemd"],
+"log-driver": "json-file",
+"log-opts": {
+"max-size": "100m"
+},
+"storage-driver": "overlay2"
+}
+EOF
+
+========================================================
+Just a blank config with systemd_cgroup fixed issue for me:
+========================================================
+
+
+cat > /etc/containerd/config.toml <<EOF
+[plugins."io.containerd.grpc.v1.cri"]
+  systemd_cgroup = true
+EOF
+systemctl restart containerd
+
+
+=============================================================
+=============================================================
+ mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 172.31.13.66:6443 --token hbg3lx.o76mkqm11ogmeyz0 \
+        --discovery-token-ca-cert-hash sha256:c35f255b90ce83d98dafa161cff6676fc19ca217e2c6f87ea38e6555fc54a233
